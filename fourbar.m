@@ -1,23 +1,39 @@
+# Initializing data values
+# a=arm1-length, b=coupler-length, c=arm2-length, d=drag-link-length
+# t is an array of time linearly spaced with 0.05s from t=0 to t=10s
+# omega is the angular velocity of link-a
+
 a=2;
 b=2;
 c=2;
 d=3;
 t=0:0.05:10;
 omega=2;
+
+# Calculations 
+# The vectors p1, p2, p3, p4 store the position co-ordinates (x,y) of the four points in space at different instants of time
+# The vector p3_v calculates the velocity of coupler
+
 theta=omega*t;
 e=sqrt(a^2+d^2-2*a*d*cos(theta));
 alpha=asin(a*sin(theta)./e);
 beta=acos((e.^2+c^2-b^2)./(2*e*c));
+
 p1=[0;0];
 p2=a*[cos(theta);sin(theta)];
 p3=[d-c*cos(alpha+beta);c*sin(alpha+beta)];
 p4=d*[1;0];
+
 p3_x=p3(1,:);
 p3_y=p3(2,:);
 p3_vx=diff(p3_x)./diff(t);
 p3_vy=diff(p3_y)./diff(t);
 p3_v=sqrt(p3_vx.^2+p3_vy.^2);
+
+# Plotting
+
 for i=1:length(t)
+
     plot1=subplot(2,1,1);
     p1_circle=viscircles(p1',0.1);
     p2_circle=viscircles(p2(:,i)',0.1);
@@ -30,6 +46,7 @@ for i=1:length(t)
     xlim([-3 7]);
     ylim([-3 7]);
     pause(0.005);
+    
     if(i<length(t))
         delete(p1_circle);
         delete(p2_circle);
@@ -38,6 +55,7 @@ for i=1:length(t)
         delete(link_a);
         delete(link_b);
         delete(link_c);
+        
         plot2=subplot(2,1,2);
         plot(plot2,t(1:i),p3_v(1:i));
         title(plot2,'Velocity-Time Graph');
@@ -46,4 +64,5 @@ for i=1:length(t)
         axis([0 10 0 10]);
         grid on;
     end
+    
 end
