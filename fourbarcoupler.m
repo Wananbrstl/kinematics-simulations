@@ -1,3 +1,6 @@
+# Initialization
+# Implement a GUI
+
 a=5;
 b=6.6;
 c=9;
@@ -6,6 +9,9 @@ e=3;
 alpha=40*pi/180;
 t=0:0.05:10;
 omega=2;
+
+# Calculations
+
 theta=omega*t;
 gamma=atan(a*sin(theta)./(d-a*cos(theta)));
 f=sqrt(a^2+d^2-2*a*d*cos(theta));
@@ -15,6 +21,10 @@ p2=a*[cos(theta);sin(theta)];
 p3=[a*cos(theta)+b*cos(beta);a*sin(theta)+b*sin(beta)];
 p4=d*[1;0];
 p5=[a*cos(theta)+e*cos(alpha+beta);a*sin(theta)+e*sin(alpha+beta)];
+
+# Velocity-anlaysis
+# p3_v and p5_v vectors contain the velocity of endpoints of the coupler
+
 p3_x=p3(1,:);
 p3_y=p3(2,:);
 p3_vx=diff(p3_x)./diff(t);
@@ -25,7 +35,12 @@ p5_y=p5(2,:);
 p5_vx=diff(p5_x)./diff(t);
 p5_vy=diff(p5_y)./diff(t);
 p5_v=sqrt(p5_vx.^2+p5_vy.^2);
+
+# Plotting
+
 for i=1:length(t)
+    
+    # Subplot-1
     plot1=subplot(3,1,1);
     p1_circle=viscircles(p1',0.1);
     p2_circle=viscircles(p2(:,i)',0.1);
@@ -41,6 +56,8 @@ for i=1:length(t)
     xlim([-15 15]);
     ylim([-15 15]);
     pause(0.005);
+    
+    # Subplot-2
     if(i<length(t))
         delete(p1_circle);
         delete(p2_circle);
